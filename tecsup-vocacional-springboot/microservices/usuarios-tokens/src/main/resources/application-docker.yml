@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-usuarios:5432/usuarios_tokens_db
+    username: postgres
+    password: postgres
+
+app:
+  microservices:
+    carreras-service:
+      url: http://carreras-service:8082/api/carreras
+    progreso-service:
+      url: http://progreso-service:8083/api/progreso
+
+logging:
+  level:
+    com.tecsup.usuarios: INFO
+  file:
+    name: /app/logs/usuarios-service.log

@@ -1,0 +1,79 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: usuarios-tokens
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/usuarios_tokens_db
+    username: postgres
+    password: Lopez2003
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  security:
+    jwt:
+      secret-key: TecsupVocacional2025SecretKeyForAuthenticationSystemWithSecureMethods
+      expiration: 86400000
+      refresh-expiration: 604800000
+
+app:
+  password:
+    min-length: 8
+    max-length: 128
+    require-uppercase: true
+    require-lowercase: true
+    require-digit: true
+    require-special-char: true
+    special-chars: "!@#$%^&*()_+-=[]{}|;:,.<>?"
+
+  email:
+    verification-expiration: 3600000
+
+  microservices:
+    carreras-service:
+      url: http://localhost:8082/api/carreras
+      timeout: 5000
+    progreso-service:
+      url: http://localhost:8083/api/progreso
+      timeout: 5000
+
+logging:
+  level:
+    com.tecsup.usuarios: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/usuarios-service.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
